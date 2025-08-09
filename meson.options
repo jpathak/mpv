@@ -99,6 +99,8 @@ option('d3d-hwaccel', type: 'feature', value: 'auto', description: 'D3D11VA hwac
 option('d3d9-hwaccel', type: 'feature', value: 'auto', description: 'DXVA2 hwaccel')
 option('gl-dxinterop-d3d9', type: 'feature', value: 'auto', description: 'OpenGL/DirectX DXVA2 hwaccel')
 option('ios-gl', type: 'feature', value: 'auto', description: 'iOS OpenGL ES interop support')
+option('ios-metal', type: 'feature', value: 'auto', description: 'iOS Metal rendering support')
+option('macos-metal', type: 'feature', value: 'auto', description: 'macOS Metal rendering support')
 option('videotoolbox-gl', type: 'feature', value: 'auto', description: 'Videotoolbox with OpenGL')
 option('videotoolbox-pl', type: 'feature', value: 'auto', description: 'Videotoolbox with libplacebo')
 

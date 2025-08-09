@@ -1406,6 +1406,48 @@ if features['ios-gl']
     sources += files('video/out/hwdec/hwdec_ios_gl.m')
 endif
 
+# macOS Metal support
+macos_metal = false
+if darwin
+    macos_metal = cc.has_header('Metal/Metal.h') and features['cocoa']
+endif
+macos_metal_opt = get_option('macos-metal').require(
+    macos_metal,
+    error_message: 'Metal headers or Cocoa not found!'
+)
+features += {'macos-metal': macos_metal_opt.allowed()}
+
+# iOS Metal support
+ios_metal = false
+if darwin
+    ios_metal = cc.has_header('Metal/Metal.h') and cc.has_header('UIKit/UIKit.h')
+endif
+ios_metal_opt = get_option('ios-metal').require(
+    ios_metal,
+    error_message: 'Metal or UIKit headers not found!'
+)
+features += {'ios-metal': ios_metal_opt.allowed()}
+
+# Combined Metal support
+if features['macos-metal'] or features['ios-metal']
+    sources += files('video/out/metal/ra_metal.m',
+                     'video/out/metal/metal_shader_compiler.m')
+    # Link Metal framework
+    dependencies += dependency('appleframeworks', modules: ['Metal', 'CoreVideo'])
+endif
+
+if features['macos-metal']
+    sources += files('video/out/metal/context_mac.m')
+endif
+
+if features['ios-metal']
+    sources += files('video/out/metal/context_ios.m',
+                     'video/out/ios/metal_layer.swift',
+                     'video/out/hwdec/hwdec_ios_metal.m',
+                     'osdep/ios/ios_common.h')
+    dependencies += dependency('appleframeworks', modules: ['UIKit'])
+endif
+
 libva = dependency('libva', version: '>= 1.1.0', required: get_option('vaapi'))
 
 vaapi_drm = dependency('libva-drm', version: '>= 1.1.0', required:

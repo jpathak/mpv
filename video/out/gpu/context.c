@@ -51,6 +51,10 @@ extern const struct ra_ctx_fns ra_ctx_vulkan_android;
 extern const struct ra_ctx_fns ra_ctx_vulkan_display;
 extern const struct ra_ctx_fns ra_ctx_vulkan_mac;
 
+/* Metal */
+extern const struct ra_ctx_fns ra_ctx_metal_mac;
+extern const struct ra_ctx_fns ra_ctx_metal_ios;
+
 /* Direct3D 11 */
 extern const struct ra_ctx_fns ra_ctx_d3d11;
 
@@ -96,6 +100,14 @@ static const struct ra_ctx_fns *const contexts[] = {
 #if HAVE_COCOA && HAVE_SWIFT
     &ra_ctx_vulkan_mac,
 #endif
+#endif
+
+// Metal contexts:
+#if HAVE_MACOS_METAL
+    &ra_ctx_metal_mac,
+#endif
+#if HAVE_IOS_METAL
+    &ra_ctx_metal_ios,
 #endif
 
 // OpenGL contexts:
